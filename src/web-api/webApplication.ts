@@ -4,19 +4,27 @@ import helmet from 'helmet';
 import { Server } from 'http';
 import { INTERNAL_SERVER_ERROR } from 'http-status';
 import { ServerNotInitializedError } from './serverNotInitializedError';
+import { Configuration } from '../domain/shared';
+import { AppConfiguration } from '../infrastructure/shared';
 
 export class WebApplication {
   private readonly _express: Application;
+  private readonly _configuration: Configuration;
   private _server?: Server;
 
   constructor() {
     this._express = express();
+    this._configuration = new AppConfiguration();
     this.configureMiddlewares();
   }
 
   get server() {
     if (!this._server) throw new ServerNotInitializedError();
     return this._server;
+  }
+
+  get configuration() {
+    return this._configuration;
   }
 
   addCors(options?: CorsOptions | CorsOptionsDelegate<CorsRequest>) {

@@ -6,7 +6,7 @@ function main() {
   app.addCors();
   app.addRoutes();
 
-  app.listen(3000);
+  app.listen(app.configuration.get('port'));
 }
 
 main();
