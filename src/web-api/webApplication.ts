@@ -3,7 +3,6 @@ import express, { Application, IRouter, NextFunction, Request, Response, Router 
 import helmet from 'helmet';
 import { Server } from 'http';
 import { INTERNAL_SERVER_ERROR } from 'http-status';
-import { ServerNotInitializedError } from './serverNotInitializedError';
 import { Configuration } from '../domain/shared';
 import { AppConfiguration } from '../infrastructure/shared';
 
@@ -19,7 +18,7 @@ export class WebApplication {
   }
 
   get server() {
-    if (!this._server) throw new ServerNotInitializedError();
+    if (!this._server) throw new Error('Server has not been initialized.');
     return this._server;
   }
 
