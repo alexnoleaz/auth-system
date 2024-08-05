@@ -9,7 +9,6 @@ export class MongoClient {
 
   constructor(configuration: MongoConfiguration) {
     this._configuration = configuration;
-    this.connect();
   }
 
   get connection() {
@@ -17,13 +16,13 @@ export class MongoClient {
     return this._connection;
   }
 
-  private connect() {
+  async connect() {
     if (this._isConnected && this._connection) return;
 
     try {
-      this._connection = createConnection(this._configuration.url, {
+      this._connection = await createConnection(this._configuration.url, {
         dbName: this._configuration.database,
-      });
+      }).asPromise();
       this._isConnected = true;
       console.log('MongoDB: connection established');
     } catch (error) {
